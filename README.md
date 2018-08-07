@@ -33,7 +33,7 @@ encoding defined in the previous section.
 Annotations:
 
 *  -x-  – defines mandatory data to be sent with the command
-*  [x]  – defines optional data to be sent with the command
+* " [x] " – defines optional data to be sent with the command
 * “ x ” – strings that allow a space or comma in complex commands will be wrapped with quotation mark (more than a single argument)
 *  x,… - defines a variable list of arguments
 
