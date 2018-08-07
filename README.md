@@ -5,7 +5,7 @@ Project in Java and C++
 
 In this Project I implemnted an online movie rental service (R.I.P Blockbuster) server and client. The communication between the server and the client(s) will be performed using a text based communication protocol, which will support renting, listing and returning of movies.
 
-The implementation of the server will be based on the Thread-Per-Client (TPC) and Reactor servers. The servers, do not support bi-directional message passing. Any time the server receives a message from a client it can reply back to that specific client itself, in addition we can send messages between clients, or broadcast an announcment to all clients. 
+The implementation of the server based on the Thread-Per-Client (TPC) and Reactor servers. The servers, do not support bi-directional message passing. Any time the server receives a message from a client it can reply back to that specific client itself, in addition we can send messages between clients, or broadcast an announcment to all clients. 
 
 The User Service Text-based protocol is the base protocol which will define the message structure and base command. Since the service requires data to be saved about each user and available movies for rental, I implement  JSON text database which will be read when the server starts and updated each time a change is made.
 
