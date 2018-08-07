@@ -268,7 +268,7 @@ Note: you may assume movie prices and user balance is an integer.
 
 The following section contains examples of commands running on client. It assumes that
 the software opened a socket properly and a connection has been initiated.
-We use “>” for keyboard input and “<” for screen output at the client side only. Server
+I use “<” for screen output at the client side only. Server
 and client actions are explained in between.
 Assume that the starting state of the Server is as presented in the example database
 files shown in section 3. (and it is the case from an example to another example, ie, each
@@ -338,44 +338,44 @@ movies)
 ### 7.2 Successfully registered, add balance, try to rent a forbidden movie in the country
 
 Further assumptions:
-• The current client is not logged in yet.
-> REGISTER steve mypass country="iran"
-< ACK registration succeeded
+* The current client is not logged in yet.
+* > REGISTER steve mypass country="iran"
+* < ACK registration succeeded
 (remember to update Users.json)
-> REQUEST balance info
-< ERROR request balance failed
+* > REQUEST balance info
+* < ERROR request balance failed
 (it failed because the user has not logged in yet)
-> LOGIN steve mypass
-< ACK login succeeded
-> REQUEST balance info
-< ACK balance 0
-> REQUEST balance add 50
-< ACK balance 50 added 50
-< BROADCAST movie "The Godfather" 2 25
+* > LOGIN steve mypass
+* < ACK login succeeded
+* > REQUEST balance info
+* < ACK balance 0
+* > REQUEST balance add 50
+* < ACK balance 50 added 50
+* < BROADCAST movie "The Godfather" 2 25
 (some user, which is not the current user, rented or returned The Godfather)
-> REQUEST rent "Justice League"
-< ERROR request rent failed
+* > REQUEST rent "Justice League"
+* < ERROR request rent failed
 (because Steve is from Iran and Justice League is banned there)
-> SIGNOUT
-< ACK signout succeeded
+* > SIGNOUT
+* < ACK signout succeeded
 (client’s app closes at this stage)
 
 ### 7.3 Admin: a simple example
-• The client is not logged in yet
-• The admin (user john) is not logged in
-> LOGIN john potato
-< ACK login succeeded
-> REQUEST remmovie “The Godfather"
-< ERROR request remmovie failed
+* The client is not logged in yet
+* The admin (user john) is not logged in
+* > LOGIN john potato
+* < ACK login succeeded
+* > REQUEST remmovie “The Godfather"
+* < ERROR request remmovie failed
 (because The Godfather has a copy rented by shlomi)
-> REQUEST remmovie "Justice League"
-< ACK remmovie "Justice League" success
+* > REQUEST remmovie "Justice League"
+* < ACK remmovie "Justice League" success
 (succeeds because no one has rented this movie yet)
-< BROADCAST movie "Justice League" removed
+* < BROADCAST movie "Justice League" removed
 (remember that even the admin is a user, that’s why he received a broadcast as well)
-> REQUEST addmovie “South Park: Bigger, Longer & Uncut” 30 9 “Israel” “Iran” “Italy”
-< ACK addmovie “South Park: Bigger, Longer & Uncut” success
-< BROADCAST movie " South Park: Bigger, Longer & Uncut" 30 9
-> SIGNOUT
-< ACK signout succeeded
+* > REQUEST addmovie “South Park: Bigger, Longer & Uncut” 30 9 “Israel” “Iran” “Italy”
+* < ACK addmovie “South Park: Bigger, Longer & Uncut” success
+* < BROADCAST movie " South Park: Bigger, Longer & Uncut" 30 9
+* > SIGNOUT
+* < ACK signout succeeded
 (client’s app closes at this stage)
