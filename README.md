@@ -32,27 +32,27 @@ encoding defined in the previous section.
 
 Annotations:
 
-* <x> – defines mandatory data to be sent with the command
-* [x] – defines optional data to be sent with the command
+* "<x>" – defines mandatory data to be sent with the command
+* "[x]" – defines optional data to be sent with the command
 * “x” – strings that allow a space or comma in complex commands will be wrapped with quotation mark (more than a single argument)
-* x,… - defines a variable list of arguments
+* "x,… "- defines a variable list of arguments
 
 #### Server commands:
 
-1) ACK [message]
+##### 1) ACK [message]
 The acknowledge command is sent by the server to reply to a successful request by a
 client. Specific cases are noted in the Client commands section.
 
-2) ERROR <error message>
+##### 2) ERROR <error message>
 The error command is sent by the server to reply to a failed request. Specific cases are
 noted in the Client commands section.
 
-3) BROADCAST <message>
+##### 3) BROADCAST <message>
 The broadcast command is sent by the server to all logged in clients. Specific cases are
 noted in the Client commands section.
 
 #### Client commands:
-1) REGISTER <username> <password> [Data block,…]
+##### 1) REGISTER <username> <password> [Data block,…]
 Used to register a new user to the system.
 * Username – The user name.
 * Password – the password.
@@ -67,7 +67,7 @@ Reasons for failure:
 In case of successful registration an ACK command will be sent: ACK registration
 succeeded
 
-2) LOGIN <username> <password>
+##### 2) LOGIN <username> <password>
 Used to login into the system.
 * Username – The username.
 * Password – The password.
@@ -80,7 +80,7 @@ command.
 3. Username and Password combination does not fit any user in the system.
 In case of a successful login an ACK command will be sent: ACK login succeeded
 
-3) SIGNOUT
+##### 3) SIGNOUT
 Sign out from the server.
 In case of failure, an ERROR command will be sent by the server: ERROR signout failed
 
@@ -89,7 +89,7 @@ Reasons for failure:
 In case of successful sign out an ACK command will be sent: ACK signout succeeded
 After a successful ACK for sign out the client terminate!
 
-4) REQUEST <name> [parameters,…]
+##### 4) REQUEST <name> [parameters,…]
 A general call to be used by clients. For example, our movie rental service will use it for
 its applications. The next section will list all the supported requests.
 
@@ -121,7 +121,7 @@ The service requires additional information about the user and the data block is
 the user inserts that information. In this case, the only information we save on a specific
 user that is recieved from the REGISTER command is the users origin country.
 
-REGISTER <username> <password> country=”<country name>”
+" REGISTER <username> <password> country=”<country name>” "
 
 ### 3.3 Normal Service REQUEST commands
 
@@ -129,15 +129,15 @@ The REQUEST command is used for most of the user operations. This is the list of
 specific request and their response messages. These commands are available to all logged
 in users.
 
-1) REQUEST balance info
+##### 1) REQUEST balance info
 Server returns the user’s current balance within an ACK message:
-ACK balance <balance>
+"ACK balance <balance>"
 
-2) REQUEST balance add <amount>
+##### 2) REQUEST balance add "<amount>"
 Server adds the amount given to the user’s balance. The server will return an ACK
-message: ACK balance <new balance> added <amount>
+message: "ACK balance <new balance> added <amount>"
 
-3) REQUEST info “[movie name]”
+##### 3) REQUEST info “[movie name]”
 Server returns information about the movies in the system. If no movie name was given
 a list of all movies’ names is returned (even if some of them are not available for rental).
 If the request fails an ERROR message is sent.
@@ -145,11 +145,10 @@ If the request fails an ERROR message is sent.
 Reasons of failure:
 1. The movie does not exist
 If the request is successful, the user performing the request will receive an ACK command:
-ACK info <”movie name”,…>.
-If a movie name was given: ACK info <”movie name”> <No. copies left> <price> <”banned
-country”,…>
+"ACK info <”movie name”,…>".
+If a movie name was given: "ACK info <”movie name”> <No. copies left> <price> <”banned country”,…>".
 
-4) REQUEST rent <”movie name”>
+##### 4) REQUEST rent "<”movie name”>"
 Server tries to add the movie to the user rented movie list, remove the cost from the
 user’s balance and reduce the amount available for rent by 1. If the request fails an ERROR
 message is sent.
@@ -161,26 +160,26 @@ Reasons for failure:
 4. The movie is banned in the user’s country
 5. The user is already renting the movie
 If the request is successful, the user performing the request will receive an ACK command:
-ACK rent <”movie name”> success. The server will also send a broadcast to all logged-in
-clients: BROADCAST movie <”movie name”> < No. copies left > <price>
+"ACK rent <”movie name”> success". The server will also send a broadcast to all logged-in
+clients: "BROADCAST movie <”movie name”> < No. copies left > <price>"
 
-5) REQUEST return <”movie name”>
+##### 5) REQUEST return "<”movie name”>"
 Server tries to remove the movie from the user rented movie list and increase the amount
 of available copies of the movies by 1. If the request fails an ERROR message is sent.
 
 Reasons of failure:
-2. The user is currently not renting the movie
-3. The movie does not exist
+1. The user is currently not renting the movie
+2. The movie does not exist
 If the request is successful, the user performing the request will receive an ACK command:
-ACK return <”movie name”> success. The server will also send a broadcast to all loggedin
-clients: BROADCAST movie <”movie name”> <No. copies left> <price>
+"ACK return <”movie name”> success". The server will also send a broadcast to all loggedin
+clients: "BROADCAST movie <”movie name”> <No. copies left> <price>".
 
 ### 3.4 Admin Service REQUEST commands
 These commands are only eligible to a user marked as admin. They are meant to help a
 remote super user to manage the list of movies. Any time a normal user attempts to run
 one of the following commands it will result in an error message.
 
-1) REQUEST addmovie <”movie name”> <amount> <price> [“banned country”,…]
+##### 1) REQUEST addmovie "<”movie name”><amount> <price>[“banned country”,…]"
 The server adds a new movie to the system with the given information. The new movie
 ID will be the highest ID in the system + 1. If the request fails an ERROR message is sent.
 
@@ -192,7 +191,7 @@ If the request is successful, the admin performing the request will receive an A
 command: ACK addmovie <”movie name”> success. The server will also send a broadcast
 to all logged-in clients: BROADCAST movie <”movie name”> <No. copies left> <price>
 
-2) REQUEST remmovie <”movie name”>
+##### 2) REQUEST remmovie <”movie name”>
 Server removes a movie by the given name from the system. If the request fails an ERROR
 message is sent.
 
@@ -201,10 +200,10 @@ Reason to failure:
 2. Movie does not exist in the system
 3. There is (at least one) a copy of the movie that is currently rented by a user
 If the request is successful, the admin performing the request will receive an ACK
-command: ACK remmovie <”movie name”> success. The server will also send a broadcast
-to all logged-in clients: BROADCAST movie <”movie name”> removed
+command: "ACK remmovie <”movie name”> success". The server will also send a broadcast
+to all logged-in clients: "BROADCAST movie <”movie name”> removed".
 
-3) REQUEST changeprice <”movie name”> <price>
+##### 3) REQUEST changeprice "<”movie name”><price>"
 Server changes the price of a movie by the given name. If the request fails an ERROR
 message is sent.
 
@@ -213,8 +212,8 @@ Reason to failure:
 2. Movie does not exist in the system
 3. Price is smaller than or equal to 0
 If the request is successful, the admin performing the request will receive an ACK
-command: ACK changeprice <”movie name”> success. The server will also send a
-broadcast to all logged-in clients: BROADCAST movie <”movie name”> <No. copies left><price>
+command: "ACK changeprice <”movie name”> success". The server will also send a
+broadcast to all logged-in clients: "BROADCAST movie <”movie name”> <No. copies left><price>".
 
 ## 4. JSON
 
