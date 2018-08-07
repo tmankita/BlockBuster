@@ -32,13 +32,12 @@ encoding defined in the previous section.
 
 Annotations:
 
-• <x> – defines mandatory data to be sent with the command
-• [x] – defines optional data to be sent with the command
-• “x” – strings that allow a space or comma in complex commands will be wrapped
-with quotation mark (more than a single argument)
-• x,… - defines a variable list of arguments
+* <x> – defines mandatory data to be sent with the command
+* [x] – defines optional data to be sent with the command
+* “x” – strings that allow a space or comma in complex commands will be wrapped with quotation mark (more than a single argument)
+* x,… - defines a variable list of arguments
 
-*** Server commands:
+#### Server commands:
 
 1) ACK [message]
 The acknowledge command is sent by the server to reply to a successful request by a
@@ -52,13 +51,12 @@ noted in the Client commands section.
 The broadcast command is sent by the server to all logged in clients. Specific cases are
 noted in the Client commands section.
 
-*** Client commands:
+#### Client commands:
 1) REGISTER <username> <password> [Data block,…]
 Used to register a new user to the system.
-• Username – The user name.
-• Password – the password.
-• Data Block – An optional block of additional information that may be used by the
-service.
+* Username – The user name.
+* Password – the password.
+* Data Block – An optional block of additional information that may be used by the service.
 In case of failure, an ERROR command will be sent by the server: ERROR registration failed
 
 Reasons for failure:
@@ -71,8 +69,8 @@ succeeded
 
 2) LOGIN <username> <password>
 Used to login into the system.
-• Username – The username.
-• Password – The password.
+* Username – The username.
+* Password – The password.
 In case of failure, an ERROR command will be sent by the server: ERROR login failed
 
 Reasons for failure:
@@ -95,8 +93,8 @@ After a successful ACK for sign out the client terminate!
 A general call to be used by clients. For example, our movie rental service will use it for
 its applications. The next section will list all the supported requests.
 
-• Name – The name of the service request.
-• Parameters,.. – specific parameters for the request.
+* Name – The name of the service request.
+* Parameters,.. – specific parameters for the request.
 In case of a failure, an ERROR command will be sent by the server:
 ERROR request <name> failed
 
@@ -105,7 +103,7 @@ Reasons for failure:
 2. Error forced by service requirements (defined in rental service section).
 In case of successful request an ACK command will be sent. Specific ACK messages are
 listed on the service specifications.
-3 Movie Rental Service
+3. Movie Rental Service
 
 ### 3.1 Overview
 
@@ -216,8 +214,7 @@ Reason to failure:
 3. Price is smaller than or equal to 0
 If the request is successful, the admin performing the request will receive an ACK
 command: ACK changeprice <”movie name”> success. The server will also send a
-broadcast to all logged-in clients: BROADCAST movie <”movie name”> <No. copies left>
-<price>
+broadcast to all logged-in clients: BROADCAST movie <”movie name”> <No. copies left><price>
 
 ## 4. JSON
 
@@ -280,62 +277,62 @@ example starts from that state)
 ### 7.1 Failed register, login, balance and movie info, rent and return a copy
 
 Further assumptions:
-• The current client is not logged in yet.
-• The user shlomi is not logged in.
-> REGISTER shlomi tryingagain country="Russia"
-< ERROR registration failed
+* The current client is not logged in yet.
+* The user shlomi is not logged in.
+* > REGISTER shlomi tryingagain country="Russia"
+* < ERROR registration failed
 (registration failed because the username shlomi is already taken)
-> REQUEST balance info
+* > REQUEST balance info
 (server checks if the user is logged in)
-< ERROR request balance failed
+* < ERROR request balance failed
 (it failed because the user is not logged in)
-> LOGIN shlomi mahpass
+* > LOGIN shlomi mahpass
 (server checks user-pass combination)
-< ERROR login failed
+* < ERROR login failed
 (it failed because the password is wrong)
-> LOGIN shlomi cocacola
-< ACK login succeeded
-> REQUEST balance info
-< ACK balance 112
-> LOGIN shlomi moipass
-< ERROR login failed
+* > LOGIN shlomi cocacola
+* < ACK login succeeded
+* > REQUEST balance info
+* < ACK balance 112
+* > LOGIN shlomi moipass
+* < ERROR login failed
 (this client is already logged in as shlomi)
-> REQUEST info
-< ACK info "The Godfather" "The Pursuit Of Happyness" "The Notebook" "Justice
+* > REQUEST info
+* < ACK info "The Godfather" "The Pursuit Of Happyness" "The Notebook" "Justice
 League"
-> REQUEST info "The Notebook"
-< ACK info "The Notebook" 0 5
-> REQUEST rent "The Notebook"
-< ERROR request rent failed
+* > REQUEST info "The Notebook"
+* < ACK info "The Notebook" 0 5
+* > REQUEST rent "The Notebook"
+* < ERROR request rent failed
 (it failed because there are no available copies)
-> REQUEST rent "Justice League"
-< ACK rent "Justice League" success
+* > REQUEST rent "Justice League"
+* < ACK rent "Justice League" success
 (at this point the file Users.json is updated that
 shlomi has rented "Justice League", his balance
 is lowered from 112 to 95 and the file
 Movies.json is updated that there is one less copy
 available of Justice League)
-< BROADCAST movie "Justice League" 3 17
-> REQUEST balance info
-< ACK balance 95
-> REQUEST changeprice “The Notebook” 22
-< ERROR request changeprice failed
+* < BROADCAST movie "Justice League" 3 17
+* > REQUEST balance info
+* < ACK balance 95
+* > REQUEST changeprice “The Notebook” 22
+* < ERROR request changeprice failed
 (because shlomi is not an admin)
-> REQUEST return "The Notebook"
-< ERROR request return failed
+* > REQUEST return "The Notebook"
+* < ERROR request return failed
 (because shlomi does not own The Notebook)
-> REQUEST info "The Godfather"
-< ACK info "The Godfather" 1 25 "united kingdom" "italy"
-> REQUEST return "The Godfather"
-< ACK return "The Godfather" success
-< BROADCAST movie "The Godfather" 2 25
-> REQUEST balance info
-< ACK balance 95
-< BROADCAST movie “The Godfather” removed
+* > REQUEST info "The Godfather"
+* < ACK info "The Godfather" 1 25 "united kingdom" "italy"
+* > REQUEST return "The Godfather"
+* < ACK return "The Godfather" success
+* < BROADCAST movie "The Godfather" 2 25
+* > REQUEST balance info
+* < ACK balance 95
+* < BROADCAST movie “The Godfather” removed
 (an admin, which is not the current user, removed The Godfather from the available
 movies)
-> SIGNOUT
-< ACK signout succeeded
+* > SIGNOUT
+* < ACK signout succeeded
 (client’s app closes at this stage)
 
 ### 7.2 Successfully registered, add balance, try to rent a forbidden movie in the country
