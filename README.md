@@ -1,7 +1,7 @@
 # BlockBuster
 Project in Java and C++
 
-* 1 General Description
+## 1 General Description
 
 In this Project I implemnted an online movie rental service (R.I.P Blockbuster) server and client. The communication between the server and the client(s) will be performed using a text based communication protocol, which will support renting, listing and returning of movies.
 
@@ -13,19 +13,19 @@ Note that these kinds of services that use passwords and/or money exchange requi
 
 The client is a simple terminal-like in C++. To simplify matters, commands will be written by keyboard and sent “as is” to the server.
 
-* 2 User Service Text based protocol
+## 2 User Service Text based protocol
 
-** 2.1 Establishing a client/server connection
+### 2.1 Establishing a client/server connection
 Upon connecting, a client must identify themselves to the system. In order to identify, a
 user must be registered in the system. The LOGIN command is used to identiy. Any
 command (except for REGISTER) used before the login is complete will be rejected by the
 system.
 
-** 2.2 Message encoding
+### 2.2 Message encoding
 A message is defined by a list of characters in UTF-8 encoding following the special
 character ‘\n’.
 
-** 2.3 Supported Commands
+### 2.3 Supported Commands
 In the following section we will entail a list of commands supported by the User Service
 Text-based protocol. Each of these commands will be sent independently within the
 encoding defined in the previous section.
@@ -107,7 +107,7 @@ In case of successful request an ACK command will be sent. Specific ACK messages
 listed on the service specifications.
 3 Movie Rental Service
 
-** 3.1 Overview
+### 3.1 Overview
 
 Our server will maintain two datasets with JSON text files. One file will contain the user
 information and the other the movie information. More about the files and the JSON
@@ -115,7 +115,7 @@ format in the next section. A new user must register in the system before being 
 login. Once registered, a user can use the login command to identify themselves and
 start interacting with the system using the REQUEST commands.
 
-** 3.2 Service REGISTER data block command
+### 3.2 Service REGISTER data block command
 
 When a REGISTER command is processed the user created will be a normal user with
 credit balance 0 by default.
@@ -125,7 +125,7 @@ user that is recieved from the REGISTER command is the users origin country.
 
 REGISTER <username> <password> country=”<country name>”
 
-** 3.3 Normal Service REQUEST commands
+### 3.3 Normal Service REQUEST commands
 
 The REQUEST command is used for most of the user operations. This is the list of service
 specific request and their response messages. These commands are available to all logged
@@ -177,7 +177,7 @@ If the request is successful, the user performing the request will receive an AC
 ACK return <”movie name”> success. The server will also send a broadcast to all loggedin
 clients: BROADCAST movie <”movie name”> <No. copies left> <price>
 
-** 3.4 Admin Service REQUEST commands
+### 3.4 Admin Service REQUEST commands
 These commands are only eligible to a user marked as admin. They are meant to help a
 remote super user to manage the list of movies. Any time a normal user attempts to run
 one of the following commands it will result in an error message.
@@ -219,9 +219,9 @@ command: ACK changeprice <”movie name”> success. The server will also send a
 broadcast to all logged-in clients: BROADCAST movie <”movie name”> <No. copies left>
 <price>
 
-* 4. JSON
+## 4. JSON
 
-** 4.1 Our JSON data
+### 4.1 Our JSON data
 We will have two JSON files that are in the server-side. One is
 “Users.json”, which stores information about the customers registered to the online
 store. The other is “Movies.json”, which stores information about the warehouse, i.e.
@@ -229,7 +229,7 @@ movies that the online store offers and information about them.
 Every change in the state of the store must be updated into the files (movie rented,
 movie returned, movie removed, user registered etc.)
 
-** 4.2 Users.json example
+### 4.2 Users.json example
 Please see the supplied file example_Users.json
 The file implies that the store currently contains 3 users:
 
@@ -244,7 +244,7 @@ currently has (by rent) the movies “The Pursuit of Happyness” (movie id 2) a
 currently has (by rent) the movies “The Godfather” (movie id 1) and “The Pursuit
 of Happyness” (movie id 2), and has a balance of $112.
 
-** 4.3 Movies.json example
+### 4.3 Movies.json example
 Please see the supplied file example_Movies.json
 The file implies that the store currently contains 4 movies:
 
@@ -267,7 +267,7 @@ Lebanon. The immediate amount available for rental is 4, and the total number
 of copies the store owns is 4 (no one is renting the movie currently)
 Note: you may assume movie prices and user balance is an integer.
 
-* 7 Examples
+## 7 Examples
 
 The following section contains examples of commands running on client. It assumes that
 the software opened a socket properly and a connection has been initiated.
@@ -277,7 +277,7 @@ Assume that the starting state of the Server is as presented in the example data
 files shown in section 3. (and it is the case from an example to another example, ie, each
 example starts from that state)
 
-** 7.1 Failed register, login, balance and movie info, rent and return a copy
+### 7.1 Failed register, login, balance and movie info, rent and return a copy
 
 Further assumptions:
 • The current client is not logged in yet.
@@ -338,7 +338,7 @@ movies)
 < ACK signout succeeded
 (client’s app closes at this stage)
 
-** 7.2 Successfully registered, add balance, try to rent a forbidden movie in the country
+### 7.2 Successfully registered, add balance, try to rent a forbidden movie in the country
 
 Further assumptions:
 • The current client is not logged in yet.
@@ -363,7 +363,7 @@ Further assumptions:
 < ACK signout succeeded
 (client’s app closes at this stage)
 
-** 7.3 Admin: a simple example
+### 7.3 Admin: a simple example
 • The client is not logged in yet
 • The admin (user john) is not logged in
 > LOGIN john potato
